@@ -38,7 +38,6 @@
 - 📊 **Analytics** - Reading time, views, and statistics
 - 🔖 **Categorization** - Tags and categories system
 - 🔄 **RSS Feed** - Automatically generated RSS feed
-- 🎵 **Spotify Integration** - Display currently playing track
 - 🌐 **Internationalization Ready** - Prepared for multiple languages
 - 🔒 **Secure** - No unnecessary client-side JavaScript
 
@@ -47,7 +46,6 @@
 ### Requirements
 
 - Node.js 16+ and npm/yarn
-- Spotify account (optional, for Now Playing feature)
 
 ### Installation
 
@@ -144,19 +142,6 @@ tags: ["performance", "web development", "user experience"]
 Your post content here...
 ```
 
-## Spotify Integration
-
-To enable the "Now Playing" feature from Spotify:
-
-1. Create an app at [Spotify Developer Dashboard](https://developer.spotify.com/dashboard/)
-2. Get your Client ID and Client Secret
-3. Add them to your `.env` file:
-
-```env
-SPOTIFY_CLIENT_ID=your_client_id
-SPOTIFY_CLIENT_SECRET=your_client_secret
-SPOTIFY_REFRESH_TOKEN=your_refresh_token
-```
 
 ## Deployment
 
