@@ -1,7 +1,7 @@
 ---
 import { getCollection } from 'astro:content';
 import BlogPost from '../../layouts/BlogPost.astro';
-import readingTime from 'reading-time'; // Thêm import này nếu chưa có
+import readingTime from 'reading-time'; // Add this import if it doesn't exist yet
 
 export async function getStaticPaths() {
   const blogEntries = await getCollection('blog');
@@ -12,25 +12,25 @@ export async function getStaticPaths() {
   );
   
   return sortedEntries.map((entry, index) => {
-    // Tính toán readingTime từ nội dung markdown
+    // Calculate readingTime from markdown content
     const readingTimeResult = readingTime(entry.body);
     
-    // Định dạng thời gian đọc thành chuỗi dễ đọc
+    // Format the read time into a readable string
     let readingTimeStr;
     if (readingTimeResult.minutes < 1) {
-      readingTimeStr = 'Dưới 1 phút đọc';
+      readingTimeStr = 'Under 1 min read';
     } else {
-      // Làm tròn lên và định dạng thành "X phút đọc"
+      // Round up and format to "X minutes read"
       const minutes = Math.ceil(readingTimeResult.minutes);
-      readingTimeStr = `${minutes} phút đọc`;
+      readingTimeStr = `${minutes} min read`;
     }
     
     return {
       params: { slug: entry.slug },
       props: { 
         entry,
-        readingTimeValue: readingTimeStr, // Truyền chuỗi đã định dạng
-        readingTimeStats: readingTimeResult, // Truyền toàn bộ thông tin thống kê
+        readingTimeValue: readingTimeStr, // Pass formatted string
+        readingTimeStats: readingTimeResult, // Transmit all statistical information
         nextPost: index > 0 ? sortedEntries[index - 1] : null,
         prevPost: index < sortedEntries.length - 1 ? sortedEntries[index + 1] : null
       },
@@ -41,7 +41,7 @@ export async function getStaticPaths() {
 const { entry, nextPost, prevPost, readingTimeValue, readingTimeStats } = Astro.props;
 const { Content } = await entry.render();
 
-// Ghi đè readingTime từ frontmatter nếu có, nếu không thì sử dụng giá trị đã tính
+// Override readingTime from frontmatter if present, otherwise use computed value
 const finalReadingTime = entry.data.readingTime || readingTimeValue;
 ---
 
