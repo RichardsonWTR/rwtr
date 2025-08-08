@@ -1,40 +1,22 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import { FaJs, FaReact, FaNodeJs, FaPython } from 'react-icons/fa';
-import { SiTypescript, SiAstro } from 'react-icons/si';
+import { FaJs, FaReact, FaNodeJs, FaPython, FaDocker } from 'react-icons/fa';
+import { SiTypescript, SiRuby } from 'react-icons/si';
+import { TbBrandCSharp } from "react-icons/tb";
+import { SiRubyonrails } from "react-icons/si";
 
-// Thông tin kỹ năng với logo ngôn ngữ lập trình
+
+// Skill information with programming language logo
 const skills = [
-  { 
-    name: "JavaScript", 
-    level: 90, 
-    icon: FaJs
-  },
-  { 
-    name: "TypeScript", 
-    level: 85, 
-    icon: SiTypescript
-  },
-  { 
-    name: "React", 
-    level: 88, 
-    icon: FaReact
-  },
-  { 
-    name: "Node.js", 
-    level: 82, 
-    icon: FaNodeJs
-  },
-  { 
-    name: "Python", 
-    level: 75, 
-    icon: FaPython
-  },
-  { 
-    name: "Astro", 
-    level: 80, 
-    icon: SiAstro
-  }
+  {  name: "JavaScript",  icon: FaJs },
+  {  name: "TypeScript",  icon: SiTypescript },
+  {  name: "React",  icon: FaReact },
+  {  name: "Node.js",  icon: FaNodeJs },
+  {  name: "Python",  icon: FaPython },
+  {  name: "Ruby",  icon: SiRuby },
+  {  name: "Ruby on Rails",  icon: SiRubyonrails },
+  {  name: "C#",  icon: TbBrandCSharp },
+  {  name: "Docker",  icon: FaDocker },
 ];
 ---
 <BaseLayout title="About Me" description="Learn more about my background, skills, and experience">
@@ -95,35 +77,22 @@ const skills = [
     </div>
     
     <!-- Skills Section - Improved for mobile -->
-    <div class="mb-16 sm:mb-20 md:mb-24 theme-transition-all">
+    <div class="theme-transition-all">
       <h2 class="text-2xl sm:text-3xl font-bold text-zinc-900 dark:text-zinc-100 mb-8 sm:mb-12 text-center theme-transition-color">Tech Stack</h2>
       
       <div class="tech-stack-slider relative overflow-hidden py-4 sm:py-8">
         <!-- Main slider container -->
         <div class="slider-track flex animate-slide">
           {[...skills, ...skills, ...skills].map((skill, index) => (
-            <div key={`${skill.name}-${index}`} class="skill-card min-w-[220px] sm:min-w-[280px] mx-2 sm:mx-4 bg-white dark:bg-zinc-800/50 rounded-xl border border-zinc-200 dark:border-zinc-700 hover:border-zinc-300 dark:hover:border-zinc-600 transition-all duration-300 hover:shadow-xl transform hover:-translate-y-2 hover:scale-105 theme-transition-element">
+            <div key={`${skill.name}-${index}`} class="skill-card min-w-[220px] mx-2 sm:mx-4 bg-white dark:bg-zinc-800/50 rounded-xl border border-zinc-200 dark:border-zinc-700 hover:border-zinc-300 dark:hover:border-zinc-600 transition-all duration-300 hover:shadow-xl transform hover:-translate-y-2 hover:scale-105 theme-transition-element">
               <div class="p-4 sm:p-6">
-                <div class="flex items-center justify-between mb-4 sm:mb-6">
+                <div class="flex items-center justify-between">
                   <div class="flex items-center gap-2 sm:gap-4">
                     <div class="w-8 h-8 sm:w-12 sm:h-12 flex items-center justify-center bg-zinc-100 dark:bg-zinc-800 rounded-lg text-zinc-800 dark:text-zinc-200 transform transition-transform group-hover:rotate-12 theme-transition-bg theme-transition-color">
                       <skill.icon size={20} className="sm:text-2xl transform transition-all hover:scale-125" />
                     </div>
                     <h3 class="text-base sm:text-xl font-semibold text-zinc-900 dark:text-zinc-100 theme-transition-color">{skill.name}</h3>
                   </div>
-                  <span class="text-xs sm:text-sm font-mono bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-full theme-transition-all">{skill.level}%</span>
-                </div>
-                
-                <div class="relative h-1.5 sm:h-2 w-full bg-zinc-100 dark:bg-zinc-700 overflow-hidden rounded-full theme-transition-bg">
-                  <div 
-                    class="absolute top-0 left-0 h-full bg-gradient-to-r from-zinc-700 via-zinc-600 to-zinc-800 dark:from-zinc-300 dark:via-zinc-400 dark:to-zinc-200 rounded-full transition-all duration-1000 progress-bar-animate theme-transition-bg"
-                    style={`width: ${skill.level}%`}
-                  ></div>
-                </div>
-                
-                <div class="flex justify-between mt-1 sm:mt-2 text-[10px] sm:text-xs text-zinc-400 dark:text-zinc-500 font-mono theme-transition-color">
-                  <span>Beginner</span>
-                  <span>Advanced</span>
                 </div>
               </div>
             </div>
