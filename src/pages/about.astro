@@ -86,26 +86,40 @@ const skills = [
     <!-- Skills Section - Improved for mobile -->
     <div class="theme-transition-all">
       <h2 class="text-2xl sm:text-3xl font-bold text-zinc-900 dark:text-zinc-100 mb-8 sm:mb-12 text-center theme-transition-color">Tech Stack</h2>
-      
-      <div class="tech-stack-slider relative overflow-hidden py-4 sm:py-8">
-        <!-- Main slider container -->
-        <div class="slider-track flex animate-slide">
-          {[...skills, ...skills, ...skills].map((skill, index) => (
-            <div key={`${skill.name}-${index}`} class="skill-card min-w-[220px] mx-2 sm:mx-4 bg-white dark:bg-zinc-800/50 rounded-xl border border-zinc-200 dark:border-zinc-700 hover:border-zinc-300 dark:hover:border-zinc-600 transition-all duration-300 hover:shadow-xl transform hover:-translate-y-2 hover:scale-105 theme-transition-element">
+
+      <div class="tech-stack-slider relative overflow-hidden space-y-6 py-4 sm:py-8">
+        <!-- Row 1: Right -->
+        <div class="slider-track flex">
+          {[...skills, ...skills].map((skill, index) => (
+            <div key={`row1-${skill.name}-${index}`} class="skill-card min-w-[220px] mx-2 sm:mx-4 bg-white dark:bg-zinc-800/50 rounded-xl border border-zinc-200 dark:border-zinc-700 hover:border-zinc-300 dark:hover:border-zinc-600 transition-all duration-300 hover:shadow-xl transform hover:-translate-y-2 hover:scale-105 theme-transition-element">
               <div class="p-4 sm:p-6">
-                <div class="flex items-center justify-between">
-                  <div class="flex items-center gap-2 sm:gap-4">
-                    <div class="w-8 h-8 sm:w-12 sm:h-12 flex items-center justify-center bg-zinc-100 dark:bg-zinc-800 rounded-lg text-zinc-800 dark:text-zinc-200 transform transition-transform group-hover:rotate-12 theme-transition-bg theme-transition-color">
-                      <skill.icon size={20} className="sm:text-2xl transform transition-all hover:scale-125" />
-                    </div>
-                    <h3 class="text-base sm:text-xl font-semibold text-zinc-900 dark:text-zinc-100 theme-transition-color">{skill.name}</h3>
+                <div class="flex items-center gap-2 sm:gap-4">
+                  <div class="w-8 h-8 sm:w-12 sm:h-12 flex items-center justify-center bg-zinc-100 dark:bg-zinc-800 rounded-lg text-zinc-800 dark:text-zinc-200 transform transition-transform group-hover:rotate-12 theme-transition-bg theme-transition-color">
+                    <skill.icon size={20} className="sm:text-2xl transform transition-all hover:scale-125" />
                   </div>
+                  <h3 class="text-base sm:text-xl font-semibold text-zinc-900 dark:text-zinc-100 theme-transition-color">{skill.name}</h3>
                 </div>
               </div>
             </div>
           ))}
         </div>
-        
+
+        <!-- Row 2: Left -->
+        <div class="slider-track flex reverse">
+          {[...skills, ...skills].map((skill, index) => (
+            <div key={`row2-${skill.name}-${index}`} class="skill-card min-w-[220px] mx-2 sm:mx-4 bg-white dark:bg-zinc-800/50 rounded-xl border border-zinc-200 dark:border-zinc-700 hover:border-zinc-300 dark:hover:border-zinc-600 transition-all duration-300 hover:shadow-xl transform hover:-translate-y-2 hover:scale-105 theme-transition-element">
+              <div class="p-4 sm:p-6">
+                <div class="flex items-center gap-2 sm:gap-4">
+                  <div class="w-8 h-8 sm:w-12 sm:h-12 flex items-center justify-center bg-zinc-100 dark:bg-zinc-800 rounded-lg text-zinc-800 dark:text-zinc-200 transform transition-transform group-hover:rotate-12 theme-transition-bg theme-transition-color">
+                    <skill.icon size={20} className="sm:text-2xl transform transition-all hover:scale-125" />
+                  </div>
+                  <h3 class="text-base sm:text-xl font-semibold text-zinc-900 dark:text-zinc-100 theme-transition-color">{skill.name}</h3>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
         <!-- Gradient overlays for smooth fade effect -->
         <div class="absolute top-0 bottom-0 left-0 w-12 sm:w-24 bg-gradient-to-r from-white dark:from-zinc-900 to-transparent z-10 theme-transition-bg"></div>
         <div class="absolute top-0 bottom-0 right-0 w-12 sm:w-24 bg-gradient-to-l from-white dark:from-zinc-900 to-transparent z-10 theme-transition-bg"></div>
@@ -142,10 +156,14 @@ const skills = [
   /* Tech Stack Slider - Seamless infinite loop */
   .slider-track {
     width: fit-content;
-    animation: scroll 40s linear infinite;
+    animation: scroll-left 40s linear infinite;
   }
-  
-  @keyframes scroll {
+
+  .slider-track.reverse {
+    animation: scroll-right 40s linear infinite;
+  }
+
+  @keyframes scroll-left {
     0% {
       transform: translateX(0);
     }
@@ -153,13 +171,26 @@ const skills = [
       transform: translateX(calc(-220px * 6 - 16px * 6)); /* Card width + margin for mobile */
     }
   }
-  
+
+  @keyframes scroll-right {
+    0% {
+      transform: translateX(calc(-220px * 6 - 16px * 6));
+    }
+    100% {
+      transform: translateX(0);
+    }
+  }
+
   @media (min-width: 640px) {
     .slider-track {
-      animation: scroll 60s linear infinite;
+      animation: scroll-left 60s linear infinite;
     }
-    
-    @keyframes scroll {
+
+    .slider-track.reverse {
+      animation: scroll-right 60s linear infinite;
+    }
+
+    @keyframes scroll-left {
       0% {
         transform: translateX(0);
       }
@@ -167,18 +198,27 @@ const skills = [
         transform: translateX(calc(-280px * 6 - 32px * 6)); /* Card width + margin for desktop */
       }
     }
+
+    @keyframes scroll-right {
+      0% {
+        transform: translateX(calc(-280px * 6 - 32px * 6));
+      }
+      100% {
+        transform: translateX(0);
+      }
+    }
   }
-  
+
   .tech-stack-slider:hover .slider-track {
     animation-play-state: paused;
   }
-  
+
   .skill-card {
     transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     position: relative;
     overflow: hidden;
   }
-  
+
   .skill-card:hover {
     z-index: 10;
   }
@@ -268,113 +308,98 @@ const skills = [
 
 <script>
   // Wait for the DOM to be fully loaded
-  document.addEventListener('DOMContentLoaded', () => {
-    const sliderTrack = document.querySelector('.slider-track');
-    
-    // Create seamless infinite scrolling effect
-    function setupInfiniteScroll() {
-      const cards = document.querySelectorAll('.skill-card');
-      if (!cards.length) return;
-      
-      // Clone the first set of cards and append to create seamless loop
-      const firstSetCount = cards.length / 3; // We have 3 sets in the markup
-      
-      // Set proper animation based on screen size
-      function updateScrollAnimation() {
-        if (window.innerWidth >= 640) {
-          sliderTrack.style.animation = 'scroll 60s linear infinite';
-        } else {
-          sliderTrack.style.animation = 'scroll 40s linear infinite';
-        }
+document.addEventListener('DOMContentLoaded', () => {
+  const sliderTracks = document.querySelectorAll('.slider-track');
+
+  // Set proper animation per row and screen size
+  sliderTracks.forEach(track => {
+    function updateAnimation() {
+      const isMobile = window.innerWidth < 640;
+      const duration = isMobile ? '40s' : '60s';
+
+      if (track.classList.contains('reverse')) {
+        track.style.animation = `scroll-right ${duration} linear infinite`;
+      } else {
+        track.style.animation = `scroll-left ${duration} linear infinite`;
       }
-      
-      updateScrollAnimation();
-      window.addEventListener('resize', updateScrollAnimation);
     }
-    
-    setupInfiniteScroll();
-    
-    // Pause animation on hover/touch
-    sliderTrack?.addEventListener('mouseenter', () => {
-      sliderTrack.style.animationPlayState = 'paused';
-    });
-    
-    sliderTrack?.addEventListener('touchstart', () => {
-      sliderTrack.style.animationPlayState = 'paused';
-    });
-    
-    sliderTrack?.addEventListener('mouseleave', () => {
-      sliderTrack.style.animationPlayState = 'running';
-    });
-    
-    sliderTrack?.addEventListener('touchend', () => {
+
+    updateAnimation();
+    window.addEventListener('resize', updateAnimation);
+
+    // Pause/resume on hover or touch
+    track.addEventListener('mouseenter', () => track.style.animationPlayState = 'paused');
+    track.addEventListener('mouseleave', () => track.style.animationPlayState = 'running');
+    track.addEventListener('touchstart', () => track.style.animationPlayState = 'paused');
+    track.addEventListener('touchend', () => {
       setTimeout(() => {
-        sliderTrack.style.animationPlayState = 'running';
+        track.style.animationPlayState = 'running';
       }, 1000); // Delay resuming animation after touch
     });
-    
+  });
+
     // Add hover effects to cards - only on non-touch devices
-    const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
-    const cards = document.querySelectorAll('.skill-card');
-    
-    if (!isTouchDevice) {
-      cards.forEach(card => {
-        card.addEventListener('mousemove', (e) => {
-          const rect = card.getBoundingClientRect();
-          const x = e.clientX - rect.left;
-          const y = e.clientY - rect.top;
+  const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+  const cards = document.querySelectorAll('.skill-card');
+  
+  if (!isTouchDevice) {
+    cards.forEach(card => {
+      card.addEventListener('mousemove', (e) => {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
           
-          const centerX = rect.width / 2;
-          const centerY = rect.height / 2;
-          
-          const angleX = (y - centerY) / 15;
-          const angleY = (centerX - x) / 15;
-          
-          card.style.transform = `perspective(1000px) rotateX(${angleX}deg) rotateY(${angleY}deg) scale(1.08) translateZ(20px)`;
-          
-          // Dynamic shadow based on tilt
-          const shadowX = (x - centerX) / 25;
-          const shadowY = (y - centerY) / 25;
-          card.style.boxShadow = `
-            ${shadowX}px ${shadowY}px 20px rgba(0, 0, 0, 0.1),
-            0 10px 20px rgba(0, 0, 0, 0.05)
-          `;
-        });
-        
-        card.addEventListener('mouseleave', () => {
-          card.style.transform = '';
-          card.style.boxShadow = '';
-        });
+        const centerX = rect.width / 2;
+        const centerY = rect.height / 2;
+
+        const angleX = (y - centerY) / 15;
+        const angleY = (centerX - x) / 15;
+
+        card.style.transform = `perspective(1000px) rotateX(${angleX}deg) rotateY(${angleY}deg) scale(1.08) translateZ(20px)`;
+
+        // Dynamic shadow based on tilt
+        const shadowX = (x - centerX) / 25;
+        const shadowY = (y - centerY) / 25;
+        card.style.boxShadow = `
+          ${shadowX}px ${shadowY}px 20px rgba(0, 0, 0, 0.1),
+          0 10px 20px rgba(0, 0, 0, 0.05)
+        `;
       });
-    } else {
-      // Simpler effects for touch devices
-      cards.forEach(card => {
-        card.addEventListener('touchstart', () => {
-          card.classList.add('is-touched');
-        });
-        
-        card.addEventListener('touchend', () => {
-          setTimeout(() => {
-            card.classList.remove('is-touched');
-          }, 300);
-        });
-      });
-    }
-    
-    // Handle theme transition
-    document.addEventListener('themeChange', () => {
-      // Add special effects during theme transition
-      cards.forEach((card, index) => {
-        // Add staggered animation delay
-        setTimeout(() => {
-          card.classList.add('theme-changing');
-          setTimeout(() => {
-            card.classList.remove('theme-changing');
-          }, 600);
-        }, index * 50);
+
+      card.addEventListener('mouseleave', () => {
+        card.style.transform = '';
+        card.style.boxShadow = '';
       });
     });
+  } else {
+      // Simpler effects for touch devices
+    cards.forEach(card => {
+      card.addEventListener('touchstart', () => {
+        card.classList.add('is-touched');
+      });
+      
+      card.addEventListener('touchend', () => {
+        setTimeout(() => {
+          card.classList.remove('is-touched');
+        }, 300);
+      });
+    });
+  }
+
+    // Handle theme transition
+  document.addEventListener('themeChange', () => {
+      // Add special effects during theme transition
+    cards.forEach((card, index) => {
+        // Add staggered animation delay
+      setTimeout(() => {
+        card.classList.add('theme-changing');
+        setTimeout(() => {
+          card.classList.remove('theme-changing');
+        }, 600);
+      }, index * 50);
+    });
   });
+});
 </script>
 
 <script>
