@@ -3,6 +3,7 @@ import Layout from './Layout.astro';
 import FormattedDate from '../components/FormattedDate.astro';
 import ShareButtons from '../components/ShareButtons.astro';
 import TagList from '../components/TagList.astro';
+import { SITE_TITLE } from '../consts'
 import './styles/markdown.css';
 export interface Props {
   title: string;
@@ -58,7 +59,7 @@ if (heroImage) {
 }
 ---
 
-<Layout title={title} description={description}>
+<Layout title={`${title} | ${SITE_TITLE}`} description={description}>
   <article class="prose dark:prose-invert prose-zinc lg:prose-lg mx-auto max-w-4xl">
     <div class="mb-12">
       <h1 class="mb-4 text-4xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100 sm:text-5xl">

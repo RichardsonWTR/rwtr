@@ -1,6 +1,7 @@
 ---
 import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import { SITE_TITLE } from '../../consts';
 
 const allPosts = await getCollection('blog') || [];
 const sortedPosts = allPosts.sort(
@@ -24,7 +25,7 @@ const totalPosts = sortedPosts.length;
 const allTags = [...new Set(sortedPosts.flatMap(post => post.data.tags || []))];
 ---
 
-<BaseLayout title="Blog">
+<BaseLayout title=`Blog | ${SITE_TITLE}`>
   <div class="w-full max-w-6xl mx-auto px-4 sm:px-6 py-10 sm:py-16">
     <!-- Enhanced header with search - improved responsive spacing -->
     <div class="relative mb-12 sm:mb-20">
