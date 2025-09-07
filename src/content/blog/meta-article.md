@@ -1,0 +1,28 @@
+---
+title: "Building a personal blog in late 2025"
+description: "There are a lot of options to consume and publish content, so why building it from scratch?"
+# pubDate: 2023-01-18
+pubDate: 2025-09-07
+# heroImage: "/i.jpg"
+# readingTime: "8 min read"
+# tags: ["performance", "web development", "user experience"]
+---
+
+In the year where AI dominates every piece of technology you use - from the short videos you see in your favorite social network, to recommendations of movies and series in your video app, to even giving you support on a lot of different products - it seems conterintuitive to building a website from scratch. And the reason is: people may think blog websites are dead, because an AI robot can create content on demand, directly from its website or app, and there are a lot of options to publish content: LinkedIn and Dev.to are a few popular options to choose.
+
+I know the majority of the population will consume content instead of creating, sometimes created by AI, relying on every word a bot creates (sometimes without checking anything at all). But, others can use it as an advantage: it's a companion technology that we don't know its full capacities and limitations.   
+The legal aspect is an abism that common people avoid to look at, once you put your personal data in an app, you don't have control of what the app owners will do with it. Well, nothing new, a few years ago people were sending their pictures to apps in exchange of an old version of herselves, with the same feeling of security, without wondering on where their data would end.
+
+**So, again, why building a personal blog from scrath?**
+
+It's all about personal satisfaction, personal branding. In the development world we see a plethora of websites, ranging from the most beautiful ones, with kilograms of CSS, to the ugliest ones, every one of them has something special. Every one has its personal touch. The content matters the most. And, as time passes, the styling may change, servers may change, but the feeling that you have something you can call "your brand" is sensational.
+
+Another aspect of why building something you can control entirely is the freedom of spech. You can write about anything, in any level of detail, using the resources you want (as long as the servers support it) - without wondering about publishing something on every "X" days to avoid blocks or website shutdown from any reason.
+
+Ok, i didn't chose to build it from scratch, I chose an Astro template and made some changes, so it's not "from scratch". Well, let's consider this template as a "quickstart". Again, the content matters the most - let's decide the final website layout in the future.
+
+The first step was made.
+Let's celebrate! I see you in future posts, talking about career, technology and related subjects.  
+Feel free to contact me using LinkedIn for any tips and to build a network. 
+
+See you again!
