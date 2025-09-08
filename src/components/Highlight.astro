@@ -46,28 +46,27 @@ const { bg, text } = palette[color] ?? palette.yellow;
 <!-- data-hl: Marker for JS to attach observer -->
 <!-- data-sequential: Pass sequential mode to JS -->
 <span
-  class={`hl relative inline-block px-1 rounded text-white dark:text-zinc-900`}
+  class={`hl relative inline-block px-1 rounded`}
   data-hl
   data-sequential={sequential}
-  style={`--bg:${bg}; --text:${text}; --delay:${delay}ms; --text-initial:currentColor; --bold:${bold ? 600 : 400};`}
+  style={`--bg:${bg}; --text:${text}; --delay:${delay}ms; --bold:${bold ? 600 : 400};`}
 >
   <slot />
 </span>
 
 <style>
 .hl {
-  /* Start with the current text color (respects light/dark mode) */
-  color: var(--text-initial); 
   font-weight: 400; /* default normal weight */
   background-image: linear-gradient(var(--bg), var(--bg));
   background-repeat: no-repeat;
   background-position: left center;
   background-size: 0% 100%;
 
-  /* Animate background size, text color, and font-weight */
+  /* Animate background size, color, and font weight */
   transition: 
     background-size 800ms cubic-bezier(0.22,1,0.36,1) var(--delay),
-    color 800ms cubic-bezier(0.22,1,0.36,1) var(--delay),
+    /* color 800ms cubic-bezier(0.22,1,0.36,1) var(--delay), - Restore this line when fix the issue: highlights starts black on dark mode.*/
+    color 800ms cubic-bezier(0.22,1,0.36,1),
     font-weight 800ms cubic-bezier(0.22,1,0.36,1) var(--delay);
 }
 
