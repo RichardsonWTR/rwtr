@@ -20,14 +20,14 @@
  *      Default is "yellow".
  *  - delay?: number
  *      Delay in milliseconds before starting the highlight animation.
- *      Default is 2000 ms.
+ *      Default is 1000 ms.
  *  - sequential?: "block" | "page" | false
  *      Controls whether highlights appear sequentially.
  *        false   = independent highlights (default behavior for normal text)
  *        "block" = sequential within the same parent container
  *        "page"  = sequential across the entire page
  */
-const { bold = false, color = 'yellow', delay = 2000, sequential = 'page' } = Astro.props;
+const { bold = false, color = 'yellow', delay = 1000, sequential = 'page' } = Astro.props;
 
 // Tailwind-inspired color palette for highlights
 const palette = {
@@ -125,7 +125,7 @@ const { bg, text } = palette[color] ?? palette.yellow;
     function startNext() {
       if (queue.length === 0) return;
       const el = queue.shift();
-      const delay = parseInt(el.style.getPropertyValue('--delay')) || 2000;
+      const delay = parseInt(el.style.getPropertyValue('--delay')) || 1000;
       const transition = 800;
       setTimeout(() => {
         el.classList.add('is-visible'); // Trigger animation
