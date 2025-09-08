@@ -46,30 +46,33 @@ const { bg, text } = palette[color] ?? palette.yellow;
 <!-- data-hl: Marker for JS to attach observer -->
 <!-- data-sequential: Pass sequential mode to JS -->
 <span
-  class={`hl relative inline-block px-1 rounded ${bold ? 'font-semibold' : ''}`}
+  class={`hl relative inline-block px-1 rounded ${bold ? 'font-semibold' : ''} text-white dark:text-zinc-900`}
   data-hl
   data-sequential={sequential}
-  style={`--bg:${bg}; --text:${text}; --delay:${delay}ms`}
+  style={`--bg:${bg}; --text:${text}; --delay:${delay}ms; --text-initial:currentColor;`}
 >
   <slot />
 </span>
 
 <style>
 .hl {
-  /* Text color and background gradient for the highlight */
-  color: var(--text);
+  /* Start with the current text color (respects light/dark mode) */
+  color: var(--text-initial); 
   background-image: linear-gradient(var(--bg), var(--bg));
   background-repeat: no-repeat;
   background-position: left center;
-  background-size: 0% 100%; /* Start collapsed */
-  
-  /* Transition for background size (highlight animation) */
-  transition: background-size 800ms cubic-bezier(0.22, 1, 0.36, 1) var(--delay);
+  background-size: 0% 100%;
+
+  /* Animate background size and text color */
+  transition: 
+    background-size 800ms cubic-bezier(0.22,1,0.36,1) var(--delay),
+    color 800ms cubic-bezier(0.22,1,0.36,1) var(--delay);
 }
 
 .hl.is-visible {
   /* When active, fill the background */
   background-size: 100% 100%;
+  color: var(--text); /* Highlight color */
 }
 </style>
 
