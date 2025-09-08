@@ -1,0 +1,150 @@
+---
+/**
+ * Highlight.astro
+ *
+ * Usage:
+ * Wrap any text you want to highlight in your article with the <Highlight> component:
+ *
+ * Example:
+ * <Highlight>Default yellow highlight</Highlight>
+ * <Highlight color="green">Green highlight</Highlight>
+ * <Highlight color="blue" delay={1500} bold>Bold blue highlight with 1.5s delay</Highlight>
+ * <Highlight sequential="block">Sequential within parent block</Highlight>
+ * <Highlight sequential="page">Sequential across entire page</Highlight>
+ *
+ * Props:
+ *  - bold?: boolean
+ *      If true, the highlighted text will be bold.
+ *  - color?: string
+ *      One of "yellow", "green", "blue", "pink", "purple".
+ *      Default is "yellow".
+ *  - delay?: number
+ *      Delay in milliseconds before starting the highlight animation.
+ *      Default is 2000 ms.
+ *  - sequential?: "block" | "page" | false
+ *      Controls whether highlights appear sequentially.
+ *        false   = independent highlights (default behavior for normal text)
+ *        "block" = sequential within the same parent container
+ *        "page"  = sequential across the entire page
+ */
+const { bold = false, color = 'yellow', delay = 2000, sequential = 'page' } = Astro.props;
+
+// Tailwind-inspired color palette for highlights
+const palette = {
+  yellow: { bg: '#FEF9C3', text: '#854D0E' },
+  green:  { bg: '#BBF7D0', text: '#065F46' },
+  blue:   { bg: '#BFDBFE', text: '#1E3A8A' },
+  pink:   { bg: '#FBCFE8', text: '#9D174D' },
+  purple: { bg: '#E9D5FF', text: '#581C87' },
+};
+
+// Pick the color from palette, fallback to yellow if invalid
+const { bg, text } = palette[color] ?? palette.yellow;
+---
+
+<!-- Highlight span -->
+<!-- data-hl: Marker for JS to attach observer -->
+<!-- data-sequential: Pass sequential mode to JS -->
+<span
+  class={`hl relative inline-block px-1 rounded ${bold ? 'font-semibold' : ''}`}
+  data-hl
+  data-sequential={sequential}
+  style={`--bg:${bg}; --text:${text}; --delay:${delay}ms`}
+>
+  <slot />
+</span>
+
+<style>
+.hl {
+  /* Text color and background gradient for the highlight */
+  color: var(--text);
+  background-image: linear-gradient(var(--bg), var(--bg));
+  background-repeat: no-repeat;
+  background-position: left center;
+  background-size: 0% 100%; /* Start collapsed */
+  
+  /* Transition for background size (highlight animation) */
+  transition: background-size 800ms cubic-bezier(0.22, 1, 0.36, 1) var(--delay);
+}
+
+.hl.is-visible {
+  /* When active, fill the background */
+  background-size: 100% 100%;
+}
+</style>
+
+<script>
+(() => {
+  // 1️⃣ Prevent running the script multiple times creating the custom variable __HL_INIT__
+  if (window.__HL_INIT__) return;
+  window.__HL_INIT__ = true;
+
+  // 2️⃣ Collect all highlight elements
+  const highlights = [...document.querySelectorAll('[data-hl]')];
+
+  // 3️⃣ Handle independent highlights (sequential = false)
+  const independentHighlights = highlights.filter(
+    h => !h.dataset.sequential || h.dataset.sequential === 'false'
+  );
+  independentHighlights.forEach(el => {
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          // 4️⃣ Add the class to trigger CSS animation
+          el.classList.add('is-visible');
+          io.unobserve(el); // Stop observing after animation triggered
+        }
+      });
+    }, { threshold: 0.8 }); // Trigger when 80% of the element is visible
+    io.observe(el);
+  });
+
+  // 5️⃣ Handle sequential highlights (block or page)
+  const sequentialHighlights = highlights.filter(
+    h => h.dataset.sequential && h.dataset.sequential !== 'false'
+  );
+
+  // 6️⃣ Group highlights by block or page
+  const groups = {};
+  sequentialHighlights.forEach(el => {
+    const key = el.dataset.sequential === 'block' ? el.parentElement : 'page';
+    if (!groups[key]) groups[key] = [];
+    groups[key].push(el);
+  });
+
+  // 7️⃣ Iterate each group and process sequentially
+  Object.values(groups).forEach(group => {
+    let queue = []; // Queue of elements that will animate
+
+    // Function to start next highlight in the queue
+    function startNext() {
+      if (queue.length === 0) return;
+      const el = queue.shift();
+      const delay = parseInt(el.style.getPropertyValue('--delay')) || 2000;
+      const transition = 800;
+      setTimeout(() => {
+        el.classList.add('is-visible'); // Trigger animation
+        setTimeout(startNext, transition); // Start next after animation completes
+      }, delay);
+    }
+
+    // 8️⃣ Attach IntersectionObserver to each element in the group
+    group.forEach(el => {
+      const io = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+          if (
+            entry.isIntersecting &&
+            !queue.includes(el) &&
+            !el.classList.contains('is-visible')
+          ) {
+            queue.push(el);   // Add to queue
+            io.unobserve(el); // Stop observing
+            if (queue.length === 1) startNext(); // Start immediately if first
+          }
+        });
+      }, { threshold: 0.8 });
+      io.observe(el);
+    });
+  });
+})();
+</script>
