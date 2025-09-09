@@ -6,9 +6,9 @@
  * Wrap any text with <Highlight> to animate a background highlight.
  *
  * Examples:
- * <Highlight>Default yellow highlight</Highlight>
- * <Highlight color="green">Green highlight</Highlight>
- * <Highlight color="blue" delay={1500} bold>Bold blue highlight with 1.5s delay</Highlight>
+ * <Highlight>Default lightYellow highlight</Highlight>
+ * <Highlight color="darkGreen">Dark green highlight</Highlight>
+ * <Highlight color="darkBlue" delay={1500} bold>Bold dark blue highlight with 1.5s delay</Highlight>
  * <Highlight sequential="block">Sequential within parent block</Highlight>
  * <Highlight sequential="page">Sequential across the entire page</Highlight>
  *
@@ -16,8 +16,9 @@
  *  - bold?: boolean
  *      If true, the text is bold.
  *  - color?: string
- *      One of "yellow", "green", "blue", "pink", "purple".
- *      Default is "yellow".
+ *      One of "lightYellow", "lightGreen", "lightBlue", "lightPink", "lightPurple",
+ *               "darkYellow", "darkGreen", "darkBlue", "darkPink", "darkPurple".
+ *      Default is "lightYellow".
  *  - delay?: number
  *      Delay (ms) before the highlight animation starts. Default: 1000.
  *  - sequential?: "block" | "page" | false
@@ -26,19 +27,23 @@
  *        "block" = sequential within same container
  *        "page"  = sequential across the entire page
  */
-const { bold = false, color = 'yellow', delay = 1000, sequential = 'page' } = Astro.props;
+const { bold = false, color = 'lightYellow', delay = 1000, sequential = 'page' } = Astro.props;
 
-// Tailwind-inspired highlight palette
 const palette = {
-  yellow: { bg: '#FEF9C3', text: '#854D0E' },
-  green:  { bg: '#BBF7D0', text: '#065F46' },
-  blue:   { bg: '#BFDBFE', text: '#1E3A8A' },
-  pink:   { bg: '#FBCFE8', text: '#9D174D' },
-  purple: { bg: '#E9D5FF', text: '#581C87' },
+  lightYellow: { bg: '#FEF9C3', text: '#854D0E' },
+  lightGreen:  { bg: '#BBF7D0', text: '#065F46' },
+  lightBlue:   { bg: '#BFDBFE', text: '#1E3A8A' },
+  lightPink:   { bg: '#FBCFE8', text: '#9D174D' },
+  lightPurple: { bg: '#E9D5FF', text: '#581C87' },
+  darkYellow: { bg: '#FFD60A', text: '#7C2D12' },   // bright golden yellow
+  darkGreen:  { bg: '#34D399', text: '#064E3B' },   // vivid emerald
+  darkBlue:   { bg: '#3B82F6', text: '#E0F2FE' },   // bright blue bg, light cyan text
+  darkPink:   { bg: '#CB467D', text: '#FCE7F3' },   // dark magenta-pink bg, soft light-pink text
+  darkPurple: { bg: '#A855F7', text: '#F3E8FF' },   // vivid purple bg, soft lilac text
 };
 
-// Pick from palette, fallback to yellow if invalid
-const { bg, text } = palette[color] ?? palette.yellow;
+// Pick from palette, fallback to lightYellow if invalid
+const { bg, text } = palette[color] ?? palette.lightYellow;
 ---
 
 <!-- Highlight span -->
