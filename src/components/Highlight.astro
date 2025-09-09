@@ -78,15 +78,11 @@ const { bg, text } = palette[color] ?? palette.yellow;
 </style>
 
 <script type="text/javascript">
-  console.log('highlight.astro - init');
 (() => {
-  console.log('highlight.astro - page loaded');
   // 1️⃣ Prevent running the script multiple times creating the custom variable __HL_INIT__
   if (document.querySelectorAll('[data-hl]:not(.is-visible)').length == 0){
-    console.log('não há itens a processsar, retornando')
     return;
   }
-  console.log('qtd de itens a processar', document.querySelectorAll('[data-hl]:not(.is-visible)').length)
   
 
   // Helper: init highlights logic (independent + sequential)
@@ -136,7 +132,6 @@ const { bg, text } = palette[color] ?? palette.yellow;
 
         // If node was disconnected (swap), skip it quickly
         if (!el.isConnected) {
-          console.log('skipping disconnected queued element', el);
           // allow microtask then continue with next
           setTimeout(startNext, 0);
           return;
@@ -201,7 +196,6 @@ function applyInlineHighlight(el) {
       if (boldVal) el.style.fontWeight = boldVal;
       el.style.backgroundSize = '100% 100%';
       if (!el.classList.contains('is-visible')) el.classList.add('is-visible');
-      console.log('adicionando is-visible (inline)', el);
     });
   } catch (e) {
     try { el.classList.add('is-visible'); } catch (_) {}
@@ -212,7 +206,6 @@ function applyInlineHighlight(el) {
 
   // // 🔧 Patch: delay init until after layout is painted (fix for client-side navigation)
   function delayedInit() {
-    console.log('chamando delayed init')
     requestAnimationFrame(() => {
       requestAnimationFrame(() => {
         initHighlights();
@@ -221,7 +214,6 @@ function applyInlineHighlight(el) {
   }
 
   // Run once on initial load
-  console.log('chamando init highlights')
   setTimeout(() => initHighlights(), 1000)
   
 
