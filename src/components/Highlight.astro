@@ -82,18 +82,17 @@ const { bg, text } = palette[color] ?? palette.yellow;
 (() => {
   console.log('highlight.astro - page loaded');
   // 1️⃣ Prevent running the script multiple times creating the custom variable __HL_INIT__
-  // if (window.__HL_INIT__){
-  //   console.log('window.__HL_INIT__ já iniciado, retornando',window.__HL_INIT__)
-  //   return;
-  // }
-  // console.log('iniciando variavel global window.__HL_INIT__',window.__HL_INIT__)
-  // window.__HL_INIT__ = true;
+  if (document.querySelectorAll('[data-hl]:not(.is-visible)').length == 0){
+    console.log('não há itens a processsar, retornando')
+    return;
+  }
+  console.log('qtd de itens a processar', document.querySelectorAll('[data-hl]:not(.is-visible)').length)
+  
 
   // Helper: init highlights logic (independent + sequential)
   function initHighlights() {
-    // 2️⃣ Collect all highlight elements
-    const highlights = [...document.querySelectorAll('[data-hl]')];
-    console.log('qty de highlights a processar', highlights.length)
+    // 2️⃣ Collect all highlight elements (skip already visible)
+    const highlights = [...document.querySelectorAll('[data-hl]:not(.is-visible)')];
 
     // 3️⃣ Handle independent highlights (sequential = false)
     const independentHighlights = highlights.filter(
@@ -104,9 +103,16 @@ const { bg, text } = palette[color] ?? palette.yellow;
         entries.forEach(entry => {
           if (entry.isIntersecting) {
             // 4️⃣ Add the class to trigger CSS animation
-            // console.log('adicionando a classe is-visible no elemento', el)
-            el.classList.add('is-visible');
-            io.unobserve(el); // Stop observing after animation triggered
+            // USE entry.target to ensure we operate on the observed element (avoids stale closure)
+            requestAnimationFrame(() => {
+              // Remove + re-add class to retrigger transition
+              entry.target.classList.remove('is-visible');
+requestAnimationFrame(() => {
+  entry.target.classList.add('is-visible');
+});
+              console.log('adicionando is-visible', entry.target);
+            });
+            io.unobserve(entry.target); // Stop observing after animation triggered
           }
         });
       }, { threshold: 0.8 }); // Trigger when 80% of the element is visible
@@ -134,52 +140,69 @@ const { bg, text } = palette[color] ?? palette.yellow;
       function startNext() {
         if (queue.length === 0) return;
         const el = queue.shift();
-        const delay = parseInt(el.style.getPropertyValue('--delay')) || 1000;
+
+        // If node was disconnected (swap), skip it quickly
+        if (!el.isConnected) {
+          console.log('----------------------------------skipping disconnected queued element', el);
+          // allow microtask then continue with next
+          setTimeout(startNext, 0);
+          return;
+        }
+
+        const delayMs = parseInt(el.style.getPropertyValue('--delay')) || 1000;
         const transition = 800;
         setTimeout(() => {
-            // console.log('adicionando a classe is-visible no elemento', el)
-          el.classList.add('is-visible'); // Trigger animation
+          requestAnimationFrame(() => {
+            // Remove + re-add class to retrigger transition
+el.classList.remove('is-visible');
+requestAnimationFrame(() => {
+  el.classList.add('is-visible');
+});
+            console.log('adicionando is-visible 1 (seq)', el);
+          });
           setTimeout(startNext, transition); // Start next after animation completes
-        }, delay);
+        }, delayMs);
       }
 
       // 8️⃣ Attach IntersectionObserver to each element in the group
-      group.forEach(el => {
+      group.forEach(observedEl => {
         const io = new IntersectionObserver(entries => {
           entries.forEach(entry => {
+            const target = entry.target;
             if (
               entry.isIntersecting &&
-              !queue.includes(el) &&
-              !el.classList.contains('is-visible')
+              !queue.includes(target) &&
+              !target.classList.contains('is-visible')
             ) {
-              queue.push(el);   // Add to queue
-              io.unobserve(el); // Stop observing
+              queue.push(target);   // Add to queue (use the entry.target)
+              io.unobserve(target); // Stop observing
               if (queue.length === 1) startNext(); // Start immediately if first
             }
           });
         }, { threshold: 0.8 });
-        io.observe(el);
+        io.observe(observedEl);
       });
     });
+
   }
 
   // // 🔧 Patch: delay init until after layout is painted (fix for client-side navigation)
-  // function delayedInit() {
-  //   console.log('chamando delayed init')
-  //   requestAnimationFrame(() => {
-  //     requestAnimationFrame(() => {
-  //       initHighlights();
-  //     });
-  //   });
-  // }
+  function delayedInit() {
+    console.log('chamando delayed init')
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        initHighlights();
+      });
+    });
+  }
 
   // Run once on initial load
   console.log('chamando init highlights')
   setTimeout(() => initHighlights(), 1000)
   
 
-  // // Run also after client-side navigation
-  // document.addEventListener("astro:after-swap", delayedInit);
-  // document.addEventListener("astro:page-load", delayedInit);
+  // Run also after client-side navigation
+  document.addEventListener("astro:after-swap", delayedInit);
+  document.addEventListener("astro:page-load", delayedInit);
 })();
 </script>
