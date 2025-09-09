@@ -77,78 +77,109 @@ const { bg, text } = palette[color] ?? palette.yellow;
 }
 </style>
 
-<script>
+<script type="text/javascript">
+  console.log('highlight.astro - init');
 (() => {
+  console.log('highlight.astro - page loaded');
   // 1️⃣ Prevent running the script multiple times creating the custom variable __HL_INIT__
-  if (window.__HL_INIT__) return;
-  window.__HL_INIT__ = true;
+  // if (window.__HL_INIT__){
+  //   console.log('window.__HL_INIT__ já iniciado, retornando',window.__HL_INIT__)
+  //   return;
+  // }
+  // console.log('iniciando variavel global window.__HL_INIT__',window.__HL_INIT__)
+  // window.__HL_INIT__ = true;
 
-  // 2️⃣ Collect all highlight elements
-  const highlights = [...document.querySelectorAll('[data-hl]')];
+  // Helper: init highlights logic (independent + sequential)
+  function initHighlights() {
+    // 2️⃣ Collect all highlight elements
+    const highlights = [...document.querySelectorAll('[data-hl]')];
+    console.log('qty de highlights a processar', highlights.length)
 
-  // 3️⃣ Handle independent highlights (sequential = false)
-  const independentHighlights = highlights.filter(
-    h => !h.dataset.sequential || h.dataset.sequential === 'false'
-  );
-  independentHighlights.forEach(el => {
-    const io = new IntersectionObserver(entries => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          // 4️⃣ Add the class to trigger CSS animation
-          el.classList.add('is-visible');
-          io.unobserve(el); // Stop observing after animation triggered
-        }
-      });
-    }, { threshold: 0.8 }); // Trigger when 80% of the element is visible
-    io.observe(el);
-  });
-
-  // 5️⃣ Handle sequential highlights (block or page)
-  const sequentialHighlights = highlights.filter(
-    h => h.dataset.sequential && h.dataset.sequential !== 'false'
-  );
-
-  // 6️⃣ Group highlights by block or page
-  const groups = {};
-  sequentialHighlights.forEach(el => {
-    const key = el.dataset.sequential === 'block' ? el.parentElement : 'page';
-    if (!groups[key]) groups[key] = [];
-    groups[key].push(el);
-  });
-
-  // 7️⃣ Iterate each group and process sequentially
-  Object.values(groups).forEach(group => {
-    let queue = []; // Queue of elements that will animate
-
-    // Function to start next highlight in the queue
-    function startNext() {
-      if (queue.length === 0) return;
-      const el = queue.shift();
-      const delay = parseInt(el.style.getPropertyValue('--delay')) || 1000;
-      const transition = 800;
-      setTimeout(() => {
-        el.classList.add('is-visible'); // Trigger animation
-        setTimeout(startNext, transition); // Start next after animation completes
-      }, delay);
-    }
-
-    // 8️⃣ Attach IntersectionObserver to each element in the group
-    group.forEach(el => {
+    // 3️⃣ Handle independent highlights (sequential = false)
+    const independentHighlights = highlights.filter(
+      h => !h.dataset.sequential || h.dataset.sequential === 'false'
+    );
+    independentHighlights.forEach(el => {
       const io = new IntersectionObserver(entries => {
         entries.forEach(entry => {
-          if (
-            entry.isIntersecting &&
-            !queue.includes(el) &&
-            !el.classList.contains('is-visible')
-          ) {
-            queue.push(el);   // Add to queue
-            io.unobserve(el); // Stop observing
-            if (queue.length === 1) startNext(); // Start immediately if first
+          if (entry.isIntersecting) {
+            // 4️⃣ Add the class to trigger CSS animation
+            // console.log('adicionando a classe is-visible no elemento', el)
+            el.classList.add('is-visible');
+            io.unobserve(el); // Stop observing after animation triggered
           }
         });
-      }, { threshold: 0.8 });
+      }, { threshold: 0.8 }); // Trigger when 80% of the element is visible
       io.observe(el);
     });
-  });
+
+    // 5️⃣ Handle sequential highlights (block or page)
+    const sequentialHighlights = highlights.filter(
+      h => h.dataset.sequential && h.dataset.sequential !== 'false'
+    );
+
+    // 6️⃣ Group highlights by block or page
+    const groups = {};
+    sequentialHighlights.forEach(el => {
+      const key = el.dataset.sequential === 'block' ? el.parentElement : 'page';
+      if (!groups[key]) groups[key] = [];
+      groups[key].push(el);
+    });
+
+    // 7️⃣ Iterate each group and process sequentially
+    Object.values(groups).forEach(group => {
+      let queue = []; // Queue of elements that will animate
+
+      // Function to start next highlight in the queue
+      function startNext() {
+        if (queue.length === 0) return;
+        const el = queue.shift();
+        const delay = parseInt(el.style.getPropertyValue('--delay')) || 1000;
+        const transition = 800;
+        setTimeout(() => {
+            // console.log('adicionando a classe is-visible no elemento', el)
+          el.classList.add('is-visible'); // Trigger animation
+          setTimeout(startNext, transition); // Start next after animation completes
+        }, delay);
+      }
+
+      // 8️⃣ Attach IntersectionObserver to each element in the group
+      group.forEach(el => {
+        const io = new IntersectionObserver(entries => {
+          entries.forEach(entry => {
+            if (
+              entry.isIntersecting &&
+              !queue.includes(el) &&
+              !el.classList.contains('is-visible')
+            ) {
+              queue.push(el);   // Add to queue
+              io.unobserve(el); // Stop observing
+              if (queue.length === 1) startNext(); // Start immediately if first
+            }
+          });
+        }, { threshold: 0.8 });
+        io.observe(el);
+      });
+    });
+  }
+
+  // // 🔧 Patch: delay init until after layout is painted (fix for client-side navigation)
+  // function delayedInit() {
+  //   console.log('chamando delayed init')
+  //   requestAnimationFrame(() => {
+  //     requestAnimationFrame(() => {
+  //       initHighlights();
+  //     });
+  //   });
+  // }
+
+  // Run once on initial load
+  console.log('chamando init highlights')
+  setTimeout(() => initHighlights(), 1000)
+  
+
+  // // Run also after client-side navigation
+  // document.addEventListener("astro:after-swap", delayedInit);
+  // document.addEventListener("astro:page-load", delayedInit);
 })();
 </script>
