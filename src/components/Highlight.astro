@@ -1,0 +1,181 @@
+---
+/**
+ * Highlight.astro
+ *
+ * Usage:
+ * Wrap any text with <Highlight> to animate a background highlight.
+ *
+ * Examples:
+ * <Highlight>Default lightYellow highlight</Highlight>
+ * <Highlight color="darkGreen">Dark green highlight</Highlight>
+ * <Highlight color="darkBlue" delay={1500} bold>Bold dark blue highlight with 1.5s delay</Highlight>
+ * <Highlight sequential="block">Sequential within parent block</Highlight>
+ * <Highlight sequential="page">Sequential across the entire page</Highlight>
+ *
+ * Props:
+ *  - bold?: boolean
+ *      If true, the text is bold.
+ *  - color?: string
+ *      One of "lightYellow", "lightGreen", "lightBlue", "lightPink", "lightPurple",
+ *               "darkYellow", "darkGreen", "darkBlue", "darkPink", "darkPurple".
+ *      Default is "lightYellow".
+ *  - delay?: number
+ *      Delay (ms) before the highlight animation starts. Default: 1000.
+ *  - sequential?: "block" | "page" | false
+ *      Controls sequential animation:
+ *        false   = independent highlights
+ *        "block" = sequential within same container
+ *        "page"  = sequential across the entire page
+ */
+const { bold = false, color = 'lightYellow', delay = 1000, sequential = 'page' } = Astro.props;
+
+const palette = {
+  lightYellow: { bg: '#FEF9C3', text: '#854D0E' },
+  lightGreen:  { bg: '#BBF7D0', text: '#065F46' },
+  lightBlue:   { bg: '#BFDBFE', text: '#1E3A8A' },
+  lightPink:   { bg: '#FBCFE8', text: '#9D174D' },
+  lightPurple: { bg: '#E9D5FF', text: '#581C87' },
+  darkYellow: { bg: '#FFD60A', text: '#7C2D12' },   // bright golden yellow
+  darkGreen:  { bg: '#34D399', text: '#064E3B' },   // vivid emerald
+  darkBlue:   { bg: '#3B82F6', text: '#E0F2FE' },   // bright blue bg, light cyan text
+  darkPink:   { bg: '#CB467D', text: '#FCE7F3' },   // dark magenta-pink bg, soft light-pink text
+  darkPurple: { bg: '#A855F7', text: '#F3E8FF' },   // vivid purple bg, soft lilac text
+};
+
+// Pick from palette, fallback to lightYellow if invalid
+const { bg, text } = palette[color] ?? palette.lightYellow;
+---
+
+<!-- Highlight span -->
+<span
+  class="hl relative inline-block px-1 rounded"
+  data-hl
+  data-sequential={sequential}
+  style={`--bg:${bg}; --text:${text}; --delay:${delay}ms; --bold:${bold ? 600 : 400};`}
+>
+  <slot />
+</span>
+
+<style>
+.hl {
+  font-weight: 400; /* default weight */
+  background-image: linear-gradient(var(--bg), var(--bg));
+  background-repeat: no-repeat;
+  background-position: left center;
+  background-size: 0% 100%;
+}
+
+.hl.is-visible {
+  background-size: 100% 100%;
+  color: var(--text);
+  font-weight: var(--bold);
+
+  transition: 
+    background-size 800ms cubic-bezier(0.22,1,0.36,1) var(--delay),
+    color 800ms cubic-bezier(0.22,1,0.36,1) var(--delay),
+    font-weight 800ms cubic-bezier(0.22,1,0.36,1) var(--delay);
+}
+</style>
+
+<script type="text/javascript">
+(() => {
+  // Skip if there are no highlights pending
+  if (document.querySelectorAll('[data-hl]:not(.is-visible)').length === 0) return;
+
+  function initHighlights() {
+    const highlights = [...document.querySelectorAll('[data-hl]:not(.is-visible)')];
+
+    // Independent highlights (sequential = false)
+    const independentHighlights = highlights.filter(h => !h.dataset.sequential || h.dataset.sequential === 'false');
+    independentHighlights.forEach(el => {
+      const io = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            applyInlineHighlight(entry.target);
+            io.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.8 });
+      io.observe(el);
+    });
+
+    // Sequential highlights (block / page)
+    const sequentialHighlights = highlights.filter(h => h.dataset.sequential && h.dataset.sequential !== 'false');
+    const groups = {};
+    sequentialHighlights.forEach(el => {
+      const key = el.dataset.sequential === 'block' ? el.parentElement : 'page';
+      if (!groups[key]) groups[key] = [];
+      groups[key].push(el);
+    });
+
+    Object.values(groups).forEach(group => {
+      let queue = [];
+
+      function startNext() {
+        if (queue.length === 0) return;
+        const el = queue.shift();
+        if (!el.isConnected) return startNext();
+
+        const delayRaw = el.style.getPropertyValue('--delay') || '1000ms';
+        const delayMs = parseInt(delayRaw) || 1000;
+        const transition = 800;
+
+        setTimeout(() => {
+          applyInlineHighlight(el);
+          setTimeout(startNext, transition);
+        }, delayMs);
+      }
+
+      group.forEach(observedEl => {
+        const io = new IntersectionObserver(entries => {
+          entries.forEach(entry => {
+            const target = entry.target;
+            if (
+              entry.isIntersecting &&
+              !queue.includes(target) &&
+              !target.classList.contains('is-visible')
+            ) {
+              queue.push(target);
+              io.unobserve(target);
+              if (queue.length === 1) startNext();
+            }
+          });
+        }, { threshold: 0.8 });
+        io.observe(observedEl);
+      });
+    });
+  }
+
+  // Helper: enforce inline styles for reliability across page swaps
+  function applyInlineHighlight(el) {
+    try {
+      const delay = el.style.getPropertyValue('--delay') || '1000ms';
+      const textColor = el.style.getPropertyValue('--text') || '';
+      const boldVal = el.style.getPropertyValue('--bold') || '';
+
+      el.style.backgroundImage = `linear-gradient(${el.style.getPropertyValue('--bg')}, ${el.style.getPropertyValue('--bg')})`;
+      el.style.backgroundRepeat = 'no-repeat';
+      el.style.backgroundPosition = 'left center';
+      el.style.backgroundSize = '0% 100%';
+
+      el.style.transition =
+        `background-size 800ms cubic-bezier(0.22,1,0.36,1) ${delay}, ` +
+        `color 800ms cubic-bezier(0.22,1,0.36,1) ${delay}, ` +
+        `font-weight 800ms cubic-bezier(0.22,1,0.36,1) ${delay}`;
+
+      void el.offsetWidth; // force reflow
+
+      requestAnimationFrame(() => {
+        if (textColor) el.style.color = textColor;
+        if (boldVal) el.style.fontWeight = boldVal;
+        el.style.backgroundSize = '100% 100%';
+        el.classList.add('is-visible');
+      });
+    } catch {
+      el.classList.add('is-visible');
+    }
+  }
+
+  initHighlights();
+})();
+</script>
