@@ -202,23 +202,7 @@ function applyInlineHighlight(el) {
   }
 }
 
-
-
-  // // 🔧 Patch: delay init until after layout is painted (fix for client-side navigation)
-  function delayedInit() {
-    requestAnimationFrame(() => {
-      requestAnimationFrame(() => {
-        initHighlights();
-      });
-    });
-  }
-
   // Run once on initial load
   setTimeout(() => initHighlights(), 1000)
-  
-
-  // Run also after client-side navigation
-  document.addEventListener("astro:after-swap", delayedInit);
-  document.addEventListener("astro:page-load", delayedInit);
 })();
 </script>
