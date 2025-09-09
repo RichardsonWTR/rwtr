@@ -1,8 +1,9 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import { SITE_TITLE } from '../consts'
 ---
 
-<Layout title="404 - Page Not Found">
+<Layout title=`404 - Page Not Found | ${SITE_TITLE}``>
   <div class="relative flex flex-col items-center justify-center min-h-[80vh] py-20 text-center px-4 overflow-hidden">
     <!-- Animated background elements -->
     <div class="absolute inset-0 overflow-hidden">
