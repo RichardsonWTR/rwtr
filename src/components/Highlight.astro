@@ -61,13 +61,6 @@ const { bg, text } = palette[color] ?? palette.yellow;
   background-repeat: no-repeat;
   background-position: left center;
   background-size: 0% 100%;
-
-  /* Animate background size, color, and font weight */
-  transition: 
-    background-size 800ms cubic-bezier(0.22,1,0.36,1) var(--delay),
-    /* color 800ms cubic-bezier(0.22,1,0.36,1) var(--delay), - Restore this line when fix the issue: highlights starts black on dark mode.*/
-    color 800ms cubic-bezier(0.22,1,0.36,1),
-    font-weight 800ms cubic-bezier(0.22,1,0.36,1) var(--delay);
 }
 
 .hl.is-visible {
@@ -75,6 +68,12 @@ const { bg, text } = palette[color] ?? palette.yellow;
   background-size: 100% 100%;
   color: var(--text);        /* Highlight color */
   font-weight: var(--bold);   /* Bold if prop is true */
+  
+  /* Animate background size, color, and font weight */
+  transition: 
+    background-size 800ms cubic-bezier(0.22,1,0.36,1) var(--delay),
+    color 800ms cubic-bezier(0.22,1,0.36,1) var(--delay),
+    font-weight 800ms cubic-bezier(0.22,1,0.36,1) var(--delay);
 }
 </style>
 
