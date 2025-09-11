@@ -1,0 +1,42 @@
+---
+const { text = "Rainbow Text" } = Astro.props;
+---
+
+<span id="rainbowText">
+  {text}
+</span>
+
+<button id="rainbowButton" class="ml-2 border px-2 py-1">
+  Flash
+</button>
+
+<script client:load>
+  const rainbowText = document.getElementById('rainbowText');
+  const rainbowButton = document.getElementById('rainbowButton');
+
+  const rainbowColors = [
+    '#FF0000', // Red
+    '#FF8C00', // Orange
+    '#FFD700', // Gold
+    '#32CD32', // Lime Green
+    '#1E90FF', // Dodger Blue
+    '#4B0082', // Indigo
+    '#EE82EE'  // Violet
+  ];
+
+  rainbowButton.addEventListener('click', () => {
+    let i = 0;
+    const steps = rainbowColors.length * 5; // cycle more than once
+    const intervalDuration = 5000 / steps;  // total = 5s
+
+    const interval = setInterval(() => {
+      rainbowText.style.color = rainbowColors[i % rainbowColors.length];
+      i++;
+
+      if (i > steps) {
+        clearInterval(interval);
+        rainbowText.style.color = ''; // reset to default
+      }
+    }, intervalDuration);
+  });
+</script>
