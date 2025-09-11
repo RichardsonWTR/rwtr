@@ -18,9 +18,19 @@
   function flashElement() {
     console.log('flashElement called on', el);
 
-    const colors = ['#FF0000','#FF7F00','#FFFF00','#00FF00','#0000FF','#4B0082','#8B00FF'];
-    const steps = colors.length * 5;
-    const duration = 5000 / steps;
+    const colors = [
+      '#E57373', // soft red
+      '#FFB74D', // soft orange
+      '#FFF176', // soft yellow
+      '#81C784', // soft green
+      '#64B5F6', // soft blue
+      '#7986CB', // soft indigo
+      '#BA68C8'  // soft violet
+    ];
+    const steps = colors.length * 3;
+    const totalDurationInMs = 5000;
+    const duration = totalDurationInMs / steps;
+
     let i = 0;
 
     const interval = setInterval(() => {
