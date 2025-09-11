@@ -1,9 +1,19 @@
-<span
-  class="rainbow-flash inline-block"
-  style="transition: background-color 0.3s linear, color 0.3s linear;"
+---
+/**
+ * RainbowFlash.astro
+ *
+ * Wrap any text or paragraph to apply a rainbow flash effect.
+ * Flash triggers when the user clicks the element.
+ * Maintains natural paragraph spacing.
+ */
+---
+
+<div
+  class="rainbow-flash"
+  style="display: block; transition: background-color 0.3s linear, color 0.3s linear;"
 >
   <slot />
-</span>
+</div>
 
 <script type="text/javascript" client:load>
 (() => {
@@ -68,3 +78,10 @@
   });
 })();
 </script>
+
+<style>
+.rainbow-flash {
+  display: block; /* ensures full paragraph width */
+  transition: background-color 0.3s linear, color 0.3s linear;
+}
+</style>
