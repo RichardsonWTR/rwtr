@@ -14,6 +14,7 @@
 
   if (!el) return;
 
+  // Flash animation
   function flashElement() {
     console.log('flashElement called on', el);
 
@@ -35,10 +36,25 @@
     }, duration);
   }
 
-  // Internal click triggers flash
+  // Click combo detection
+  let clickCount = 0;
+  let clickTimeout;
+
   el.addEventListener('click', () => {
-    console.log('Internal span clicked');
-    flashElement();
+    console.log('Click detected', clickCount);
+    clickCount++;
+
+    clearTimeout(clickTimeout);
+    clickTimeout = setTimeout(() => {
+      clickCount = 0;
+      console.log('Click count reset');
+    }, 1000); // 1 seconds window
+
+    if (clickCount >= 5) {
+      console.log('Click combo reached! Triggering flash.');
+      flashElement();
+      clickCount = 0; // reset after triggering
+    }
   });
 })();
 </script>
