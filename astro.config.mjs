@@ -5,21 +5,27 @@ import mdx from '@astrojs/mdx';
 
 // Determine site URL based on environment
 const getSiteURL = () => {
-  // For Vercel production deployment
-  if (process.env.VERCEL_URL) {
-    return `https://${process.env.VERCEL_URL}`;
-  }
-  // For Vercel preview deployment
-  if (process.env.VERCEL_BRANCH_URL) {
-    return `https://${process.env.VERCEL_BRANCH_URL}`;
+  if (process.env.PRODUCTION_URL) {
+    return process.env.PRODUCTION_URL;
   }
   // For local development
   return 'http://localhost:4321';
 };
 
+// Determine site URL based on environment
+const getBaseURL = () => {
+  if (process.env.PRODUCTION_BASE_URL) {
+    return process.env.PRODUCTION_BASE_URL;
+  }
+  // For local development
+  return '';
+};
+
+
 // https://astro.build/config
 export default defineConfig({
   site: getSiteURL(),
+  base: getBaseURL(),
   integrations: [
     tailwind(),
     react(),
