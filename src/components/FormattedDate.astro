@@ -3,10 +3,12 @@ export interface Props {
   date?: Date | string;
 }
 
+import parseDate from '../utils/parseStringToDate'
+
 const { date } = Astro.props;
 
 // Convert string to Date if needed
-const parsedDate = typeof date === 'string' ? new Date(date) : date;
+const parsedDate = typeof date === 'string' ? parseDate(date) : date;
 ---
 
 {parsedDate && (
