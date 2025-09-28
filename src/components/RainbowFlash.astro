@@ -1,0 +1,87 @@
+---
+/**
+ * RainbowFlash.astro
+ *
+ * Wrap any text or paragraph to apply a rainbow flash effect.
+ * Flash triggers when the user clicks the element.
+ * Maintains natural paragraph spacing.
+ */
+---
+
+<div
+  class="rainbow-flash"
+  style="display: block; transition: background-color 0.3s linear, color 0.3s linear;"
+>
+  <slot />
+</div>
+
+<script type="text/javascript" client:load>
+(() => {
+  console.log('RainbowFlash script loaded');
+
+  const el = document.querySelector('.rainbow-flash');
+  console.log('Box found?', el);
+
+  if (!el) return;
+
+  // Flash animation
+  function flashElement() {
+    console.log('flashElement called on', el);
+
+    const colors = [
+      '#E57373', // soft red
+      '#FFB74D', // soft orange
+      '#FFF176', // soft yellow
+      '#81C784', // soft green
+      '#64B5F6', // soft blue
+      '#7986CB', // soft indigo
+      '#BA68C8'  // soft violet
+    ];
+    const steps = colors.length * 3;
+    const totalDurationInMs = 5000;
+    const duration = totalDurationInMs / steps;
+
+    let i = 0;
+
+    const interval = setInterval(() => {
+      el.style.backgroundColor = colors[i % colors.length];
+      el.style.color = i % 2 === 0 ? '#FFFFFF' : '#000000';
+      i++;
+      if (i > steps) {
+        clearInterval(interval);
+        el.style.backgroundColor = '';
+        el.style.color = '';
+        console.log('Rainbow flash ended');
+      }
+    }, duration);
+  }
+
+  // Click combo detection
+  let clickCount = 0;
+  let clickTimeout;
+
+  el.addEventListener('click', () => {
+    console.log('Click detected', clickCount);
+    clickCount++;
+
+    clearTimeout(clickTimeout);
+    clickTimeout = setTimeout(() => {
+      clickCount = 0;
+      console.log('Click count reset');
+    }, 1000); // 1 seconds window
+
+    if (clickCount >= 5) {
+      console.log('Click combo reached! Triggering flash.');
+      flashElement();
+      clickCount = 0; // reset after triggering
+    }
+  });
+})();
+</script>
+
+<style>
+.rainbow-flash {
+  display: block; /* ensures full paragraph width */
+  transition: background-color 0.3s linear, color 0.3s linear;
+}
+</style>
