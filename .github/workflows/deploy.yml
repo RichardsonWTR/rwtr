@@ -27,8 +27,7 @@ jobs:
           node-version: 22 # The specific version of Node that should be used to build your site. Defaults to 20. (optional)
           # package-manager: pnpm@latest # The Node package manager that should be used to install dependencies and build your site. Automatically detected based on your lockfile. (optional)
         env:
-          PRODUCTION_URL: 'https://richardsonwtr.github.io'
-          PRODUCTION_BASE_URL: '/rwtr'
+          PRODUCTION_URL: 'https://rwtr.dev'
 
   deploy:
     needs: build
