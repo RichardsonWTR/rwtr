@@ -74,7 +74,7 @@ const sortedTags = [...tagObjects].sort((a, b) => b.count - a.count);
           <h2 class="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-zinc-900 dark:text-zinc-100 mb-3 sm:mb-4 md:mb-6 lg:mb-8 text-center theme-transition-color">Popular Topics</h2>
           
           <!-- Ultra-responsive grid layout with fallbacks -->
-          <div class="grid grid-cols-2 xxxs:grid-cols-2 xxs:grid-cols-2 xs:grid-cols-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-1.5 xxxs:gap-2 xxs:gap-2 xs:gap-2 sm:gap-3 md:gap-4 w-full">
+          <div class="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-2 gap-1.5 xs:gap-2 sm:gap-3 md:gap-4 w-full">
             {sortedTags.map((tag) => (
               <a 
                 href={`/tags/${tag.name}`}
@@ -83,16 +83,16 @@ const sortedTags = [...tagObjects].sort((a, b) => b.count - a.count);
               >
                 <div class="absolute inset-0 bg-gradient-to-br from-zinc-50/90 to-zinc-100/90 dark:from-zinc-800/90 dark:to-zinc-900/90 opacity-100 group-hover:opacity-95 transition-opacity theme-transition-bg"></div>
                 
-                <div class="relative px-1.5 xxxs:px-2 xxs:px-2 xs:px-2 sm:px-3 md:px-4 py-1.5 xxxs:py-2 xxs:py-2 xs:py-2 sm:py-3 md:py-4 flex items-center gap-1.5 xxs:gap-2 w-full">
-                  <div class="flex-shrink-0 flex items-center justify-center w-5 h-5 xxxs:w-6 xxxs:h-6 xxs:w-6 xxs:h-6 xs:w-7 xs:h-7 sm:w-8 sm:h-8 md:w-10 md:h-10 rounded-full bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 group-hover:bg-accent/20 dark:group-hover:bg-accent/20 group-hover:text-accent-dark dark:group-hover:text-accent-light transition-all duration-300 shadow-sm theme-transition-all">
-                    <span class="text-xs xxxs:text-xs xxs:text-xs xs:text-sm sm:text-base md:text-lg font-semibold">#</span>
+                <div class="relative px-1.5 xxs:px-2 xs:px-2 sm:px-3 md:px-4 py-1.5 xxs:py-2 xs:py-2 sm:py-3 md:py-4 flex items-center gap-1.5 xxs:gap-2 w-full">
+                  <div class="flex-shrink-0 flex items-center justify-center w-5 h-5 xxs:w-6 xxs:h-6 xs:w-7 xs:h-7 sm:w-8 sm:h-8 md:w-10 md:h-10 rounded-full bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 group-hover:bg-accent/20 dark:group-hover:bg-accent/20 group-hover:text-accent-dark dark:group-hover:text-accent-light transition-all duration-300 shadow-sm theme-transition-all">
+                    <span class="text-xs xxs:text-xs xs:text-sm sm:text-base md:text-lg font-semibold">#</span>
                   </div>
                   
                   <div class="flex-1 min-w-0 overflow-hidden">
-                    <h3 class="text-[10px] xxxs:text-xs xxs:text-xs xs:text-xs sm:text-sm md:text-base font-bold text-zinc-900 dark:text-zinc-100 group-hover:text-zinc-700 dark:group-hover:text-zinc-300 transition-colors theme-transition-color break-words hyphens-auto truncate">
+                    <h3 class="text-[10px] xxs:text-sm xs:text-sm sm:text-base md:text-base lg:text-[15px] xl:text-[16px] 2xl:text-[16px] font-bold text-zinc-900 dark:text-zinc-100 group-hover:text-zinc-700 dark:group-hover:text-zinc-300 transition-colors theme-transition-color break-words hyphens-auto truncate">
                       {tag.name}
                     </h3>
-                    <p class="text-[8px] xxxs:text-[9px] xxs:text-[9px] xs:text-[10px] sm:text-xs md:text-xs text-zinc-500 dark:text-zinc-400 theme-transition-color truncate">{tag.count} article{tag.count !== 1 ? 's' : ''}</p>
+                    <p class="text-[10px] xxs:text-[11px] xs:text-[12px] sm:text-sm md:text-sm text-zinc-500 dark:text-zinc-400 theme-transition-color truncate">{tag.count} article{tag.count !== 1 ? 's' : ''}</p>
                   </div>
                 </div>
               </a>
