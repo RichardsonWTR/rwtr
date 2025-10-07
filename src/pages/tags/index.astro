@@ -50,7 +50,7 @@ const sortedTags = [...tagObjects].sort((a, b) => b.count - a.count);
       </p>
     </div>
     
-    {tags.length === 0 ? (
+    {tags.length === 0 && (
       <div class="text-center py-8 sm:py-12 md:py-16 theme-transition-element">
         <div class="inline-flex items-center justify-center w-16 sm:w-20 md:w-24 h-16 sm:h-20 md:h-24 rounded-full bg-zinc-100 dark:bg-zinc-800 mb-3 sm:mb-4 md:mb-6 shadow-inner theme-transition-bg">
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 sm:w-10 md:w-12 h-8 sm:h-10 md:h-12 text-zinc-500 dark:text-zinc-400 theme-transition-color">
@@ -61,7 +61,9 @@ const sortedTags = [...tagObjects].sort((a, b) => b.count - a.count);
         <p class="text-lg sm:text-xl md:text-2xl font-medium text-zinc-800 dark:text-zinc-200 theme-transition-color">No tags found yet.</p>
         <p class="mt-2 text-xs sm:text-sm md:text-base text-zinc-500 dark:text-zinc-500 theme-transition-color">Check back later for categorized content.</p>
       </div>
-    ) : (
+    )}
+    
+    {tags.length > 0 && (
       <div class="flex justify-center w-full">
         <!-- Featured Tags Section - ultra-responsive design -->
         <div class="tag-cloud relative p-3 sm:p-4 md:p-6 lg:p-8 rounded-lg sm:rounded-xl md:rounded-2xl lg:rounded-3xl border border-zinc-100 dark:border-zinc-800 bg-white/50 dark:bg-zinc-900/50 backdrop-blur-sm hover-3d glass theme-transition-all w-full">
