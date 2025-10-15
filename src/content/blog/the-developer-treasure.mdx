@@ -9,12 +9,12 @@ import Highlight from '../../components/Highlight.astro';
 What's your treasure? For a company that possesses software, I believe the source code is a very important part of this.
 In possession of the source code the company can understand, improve and extend every feature that was ever developed. 
 
-> As a software engineer or developer,  it's your responsibility to defend the complete change history no matter what it costs.
+> As a software engineer or developer, it's your responsibility to defend the complete change history no matter what it costs.
 
 As important as the source code is the history of the changes. With this in hand, one can understand when every change was introduced and how it correlates with the existing code. 
 Whoever never complained about poorly written code to later discover from <Highlight color="lightBlue">`Git Blame`</Highlight> that it was changed by you, may cast the first stone.
 
-I learned that <Highlight color="lightBlue">commits must tell a story</Highlight>,  <Highlight color="darkBlue">so merge requests and issues</Highlight>. You'll eventually enter into a “legacy” project with some undocumented issues,  and you'll eventually waste time discovering that some defects are expected to happen, waiting to be fixed. When you find those issues, **you'd better document them**, for your future self and for new project contributors. It's easy to skip this matter in small companies or projects, when there is only one person responsible for maintaining the code.
+I learned that <Highlight color="lightBlue">commits must tell a story</Highlight>, <Highlight color="darkBlue">so merge requests and issues</Highlight>. You'll eventually enter into a “legacy” project with some undocumented issues, and you'll eventually waste time discovering that some defects are expected to happen, waiting to be fixed. When you find those issues, **you'd better document them**, for your future self and for new project contributors. It's easy to skip this matter in small companies or projects, when there is only one person responsible for maintaining the code.
 
 As the project grows and time passes, the company may need or want to move the repositories to another location, and, no matter how hard it is to migrate in the correct way, **if you’re part of the development team, defend the history of the code, including everything related, like merge/pull requests, issues, milestones/projects, releases, tags**! At the end of the day, the development team responsible for maintaining the code will eventually find utility in this history. People from other business areas must understand the value of it.
 
@@ -24,6 +24,6 @@ I've experienced situations where I copied entire folders of projects in zip fil
 
 I’ve witnessed managers of small businesses poorly migrate repositories just because they didn’t have time or they didn't understand the importance of the proper migration. And again, the development team (with me included) received that code with wrong references of changes. What a shame. I wanted that Git Blame working properly! **Nobody wants to have to check references in the current repository and later check in the legacy repository to find the origin and time of a change.** A single repository must be the source of truth, not multiple ones.
 
-As a software engineer or developer,  it's your responsibility to defend this history no matter what it costs. In the end, the development team is responsible for understanding the code and to move towards a better future. And without the history in hand it is harder to do so. If it wasn’t important, companies wouldn’t invest in this technology!
+As a software engineer or developer, it's your responsibility to defend this history no matter what it costs. In the end, the development team is responsible for understanding the code and to move towards a better future. And without the history in hand it is harder to do so. If it wasn’t important, companies wouldn’t invest in this technology!
 
 Even between different source control management systems, it's possible to migrate. I’ve accomplished migrating SVN repositories to Git repositories, keeping most of the references intact. In the same management system and with the same platform, it’ll probably be an easy task.
