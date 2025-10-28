@@ -1,7 +1,7 @@
 ---
 import { getCollection } from 'astro:content';
 import BlogPost from '../../layouts/BlogPost.astro';
-import readingTime from 'reading-time'; // Add this import if it doesn't exist yet
+import calculateReadingTime from '../../utils/calculateReadingTime'
 
 export async function getStaticPaths() {
   const blogEntries = await getCollection('blog');
@@ -12,18 +12,8 @@ export async function getStaticPaths() {
   );
   
   return sortedEntries.map((entry, index) => {
-    // Calculate readingTime from markdown content
-    const readingTimeResult = readingTime(entry.body);
-    
-    // Format the read time into a readable string
-    let readingTimeStr;
-    if (readingTimeResult.minutes < 1) {
-      readingTimeStr = 'Under 1 min read';
-    } else {
-      // Round up and format to "X minutes read"
-      const minutes = Math.ceil(readingTimeResult.minutes);
-      readingTimeStr = `${minutes} min read`;
-    }
+
+    const { readingTimeResult, readingTimeStr } = calculateReadingTime(entry.body)
     
     return {
       params: { slug: entry.slug },
