@@ -1,0 +1,40 @@
+---
+title: "Blinded by the Excitement: A Lesson for Small Teams and Companies"
+description: "We all love new tech. But in small teams, excitement can turn into distraction — fast."
+pubDate: "2025-10-19"
+tags: ["Software Engineering", "Web Development", "Project Management", "Technical Debt", "Lessons Learned", "Best Practices", "Team Dynamics", "Software Architecture"]
+---
+
+When starting a career, and especially in inexperienced teams, it's easy to digress in a new project, especially when you have new technologies and new ways to build something. **It's like a child receiving a new toy: the new object gets full attention.**
+
+## The story
+
+Have you ever been so excited about improving existing software that you end up in a dead end because the scope of changes grew so much that the project was cancelled? Well, I did. And I'll tell you this lesson so you can learn from my mistakes rather than from your own experience.
+
+A few years ago, I was working at a project in an software that existed for more than a decade, and it had even been translated between different programming languages. It didn't have unit tests or rules to enforce code quality. Imagine how mixed the source code was — a true mixed salad. Very colorful.
+
+When I joined the project, I had a full hand of products split between hundreds of modules and easily thousands of lines of code. The development team had started introducing browser-based features, migrating from the old desktop design.
+
+At a specific point in time, the IT department was allowed to launch some of the existing desktop features in a web-based manner. As mentioned, the existing software was untested, tightly coupled, and complex to maintain, so a plan to recreate the project was made. The failure started with this decision.
+
+> At the time, I didn't realize it, but that thing was already starting to smell bad.
+
+I wasn't a junior developer at that time, but today I know that I had to learn a lesson — and I was about to learn it. The development team started to recreate some of the existing features directly for the web, improving everything possible along the way, introducing new development and management concepts as well.
+
+The *"✨✨ 2.0 version ✨✨"* would begin with a new database and new management screens — literally starting over with a new database, new repositories, new everything. At the time, I didn't realize it, but that thing was already starting to smell bad.
+
+Time passed, new technologies were chosen, and the team started digressing into minor aspects like how the model structure would be or the use of inheritance versus composition.
+
+Also, the great desire to build the new system as perfectly as possible led us to choose technologies that were new and known by only a few developers — causing development delays.
+
+As time went by, other demands on the IT department and external events caused the team to split its efforts between maintaining the existing software and creating the 2.0 version. The dream of building the perfect software started to fall apart.
+
+A few months later (surprisingly), **the project was cancelled**.
+
+Did it hurt? Yes, no more playing with the new toys — back to the old ones.
+Lesson learned. But I'll talk about it in a future article.
+
+**Key takeaways:**
+- Excitement can hide technical debt. Choose what your team knows best, not just the trendiest technology.  
+- Reinvention often fails when maintenance still depends on legacy systems. If the product is large or already in production, focus on introducing incremental changes.  
+- Plan a long-term improvement roadmap to prevent cancellations and maintain momentum.  
