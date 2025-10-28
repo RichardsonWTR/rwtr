@@ -3,6 +3,7 @@ import { getCollection } from 'astro:content';
 import Layout from '../layouts/Layout.astro';
 import FormattedDate from '../components/FormattedDate.astro';
 import { SITE_TITLE } from '../consts';
+import calculateReadingTime from '../utils/calculateReadingTime'
 
 // Get all blog posts
 const allPosts = await getCollection('blog');
@@ -94,7 +95,7 @@ const allTags = [...new Set(allPosts.flatMap(post => post.data.tags || []))].sli
                 <FormattedDate date={post.data.pubDate} format="long" />
               </time>
               <span class="relative z-10 rounded-full bg-zinc-100 dark:bg-zinc-800 px-2 sm:px-3 py-1 sm:py-1.5 font-medium text-zinc-600 dark:text-zinc-300 theme-transition-all">
-                {post.data.readingTime || `${Math.ceil(post.body.length / 2000)} min read`}
+                {post.data.readingTime || calculateReadingTime(post.body).readingTimeStr} 
               </span>
             </div>
             
