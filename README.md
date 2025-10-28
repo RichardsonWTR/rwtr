@@ -1,45 +1,9 @@
 
-# ✨ Astro Blog
+# rwtr Blog
 
-<p align="center">
-  <img src="public/favicon.svg" alt="Astro Blog Logo" width="120" height="120">
-</p>
+This is the developer blog of [richardsonwtr](https://github.com/richardsonwtr).
 
-<p align="center">
-  <strong>A modern, minimalist, high-performance blog platform built with Astro.js</strong>
-</p>
-
-<p align="center">
-  <a href="#demo">Demo</a> •
-  <a href="#features">Features</a> •
-  <a href="#getting-started">Getting Started</a> •
-  <a href="#project-structure">Project Structure</a> •
-  <a href="#customization">Customization</a> •
-  <a href="#deployment">Deployment</a> •
-</p>
-
-<p align="center">
-  <img src="public/image.png" alt="Astro Blog Screenshot" width="800">
-</p>
-
-## Demo
-
-[View Live Demo](https://astro-blog-pi-ashen.vercel.app/)
-
-## Features
-
-- 🚀 **Maximum Performance** - Built with Astro.js for lightning-fast static sites
-- 🎨 **Minimalist Design** - Clean UI that focuses on content
-- 🌓 **Light/Dark Mode** - Smooth theme switching
-- 📱 **Responsive** - Perfect experience on all devices
-- ⚡ **SPA Transitions** - Smooth page navigation with transition effects
-- 📝 **Markdown & MDX** - Write posts with Markdown and extend with MDX
-- 🔍 **SEO Optimized** - Meta tags, Open Graph, and Twitter Cards
-- 📊 **Analytics** - Reading time, views, and statistics
-- 🔖 **Categorization** - Tags and categories system
-- 🔄 **RSS Feed** - Automatically generated RSS feed
-- 🌐 **Internationalization Ready** - Prepared for multiple languages
-- 🔒 **Secure** - No unnecessary client-side JavaScript
+Base template: [Astro Blog](https://github.com/williamcachamwri/astro-blog)
 
 ## Getting Started
 
@@ -51,10 +15,10 @@
 
 ```bash
 # Clone repository
-git clone https://github.com/williamcachamwri/astro-blog
+git clone https://github.com/richardsonwtr/rwtr
 
 # Navigate to project directory
-cd astro-blog
+cd rwtr
 
 # Install dependencies
 npm install
@@ -133,7 +97,7 @@ Create a new Markdown or MDX file in the `src/content/blog` directory:
 ---
 title: "Optimizing Web Performance for Better UX"
 description: "Tips and techniques for improving your website's performance and providing a better user experience."
-pubDate: 2023-01-18
+pubDate: "2023-01-18"
 heroImage: "/placeholder.svg?height=630&width=1200"
 readingTime: "8 min read"
 tags: ["performance", "web development", "user experience"]
@@ -141,19 +105,3 @@ tags: ["performance", "web development", "user experience"]
 
 Your post content here...
 ```
-
-
-## Deployment
-
-### Netlify
-
-[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/williamcachamwri/astro-blog)
-
-### Vercel
-
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/williamcachamwri/astro-blog)
----
-
-<p align="center">
-  Made with ❤️ by <a href="https://github.com/williamcachamwri">William Cachamwri</a>
-</p>
