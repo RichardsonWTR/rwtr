@@ -1,0 +1,177 @@
+
+/* Blob animation */
+.animate-blob {
+  animation: blob-bounce 8s infinite ease;
+}
+
+.animation-delay-2000 {
+  animation-delay: 2s;
+}
+
+@keyframes blob-bounce {
+  0%, 100% {
+    transform: translate(0, 0) scale(1);
+  }
+  25% {
+    transform: translate(5%, 5%) scale(1.05);
+  }
+  50% {
+    transform: translate(0, 10%) scale(1);
+  }
+  75% {
+    transform: translate(-5%, 5%) scale(0.95);
+  }
+}
+
+/* Tech Stack Slider - Seamless infinite loop */
+.slider-track {
+  width: fit-content;
+  animation: scroll-left 40s linear infinite;
+}
+
+.slider-track.reverse {
+  animation: scroll-right 40s linear infinite;
+}
+
+@keyframes scroll-left {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(calc(-220px * 6 - 16px * 6)); /* Card width + margin for mobile */
+  }
+}
+
+@keyframes scroll-right {
+  0% {
+    transform: translateX(calc(-220px * 6 - 16px * 6));
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+@media (min-width: 640px) {
+  .slider-track {
+    animation: scroll-left 60s linear infinite;
+  }
+
+  .slider-track.reverse {
+    animation: scroll-right 60s linear infinite;
+  }
+
+  @keyframes scroll-left {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(calc(-280px * 6 - 32px * 6)); /* Card width + margin for desktop */
+    }
+  }
+
+  @keyframes scroll-right {
+    0% {
+      transform: translateX(calc(-280px * 6 - 32px * 6));
+    }
+    100% {
+      transform: translateX(0);
+    }
+  }
+}
+
+.tech-stack-slider:hover .slider-track {
+  animation-play-state: paused;
+}
+
+.skill-card {
+  transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  position: relative;
+  overflow: hidden;
+}
+
+.skill-card:hover {
+  z-index: 10;
+}
+
+/* Reduce animation complexity on mobile for better performance */
+@media (max-width: 640px) {
+  .skill-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .skill-card:hover {
+    transform: translateY(-5px) !important;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1) !important;
+  }
+}
+
+.skill-card:before {
+  content: '';
+  position: absolute;
+  top: -10%;
+  left: -10%;
+  width: 120%;
+  height: 120%;
+  background: radial-gradient(circle at center, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 70%);
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  pointer-events: none;
+}
+
+.skill-card:hover:before {
+  opacity: 1;
+}
+
+.progress-bar-animate {
+  position: relative;
+  overflow: hidden;
+}
+
+.progress-bar-animate:after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+  animation: progress-shine 2s infinite;
+}
+
+@keyframes progress-shine {
+  0% {
+    left: -100%;
+  }
+  100% {
+    left: 100%;
+  }
+}
+
+/* Improved touch targets for mobile */
+@media (max-width: 640px) {
+  a, button {
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+  }
+  
+  .social-link {
+    min-width: 44px;
+    min-height: 44px;
+  }
+}
+
+/* Theme transition effect */
+:global(.theme-switching) .theme-transition-element {
+  animation: fadeIn 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Smooth card transition during theme switch */
+.skill-card.theme-transition-element {
+  transition: background-color var(--theme-transition), 
+              border-color var(--theme-transition), 
+              color var(--theme-transition), 
+              box-shadow var(--theme-transition),
+              transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
