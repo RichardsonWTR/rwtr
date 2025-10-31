@@ -376,6 +376,12 @@ const allTags = [...new Set(allPosts.flatMap(post => post.data.tags || []))].sli
       animateContent();
     }
   });
+
+  // call animateContent when the layout finishes inserting SPA content
+  document.addEventListener('spa-content-loaded', () => {
+    // small delay to allow inserted DOM to settle
+    setTimeout(animateContent, 40);
+  });
   
   // SPA transition handling for homepage
   function setupSPATransitions() {
