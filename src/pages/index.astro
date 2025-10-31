@@ -192,6 +192,33 @@ const allTags = [...new Set(allPosts.flatMap(post => post.data.tags || []))].sli
 </Layout>
 
 <script>
+  // Add smooth reveal animations for content after loading
+  const animateContent = () => {
+    // Animate hero section
+    const heroElements = document.querySelectorAll('.hero-text span, .hero-text + p, .hero-text ~ div');
+    heroElements.forEach((el, index) => {
+      setTimeout(() => {
+        el.classList.add('animate-reveal');
+      }, 100 + (index * 150));
+    });
+    
+    // Animate posts with staggered delay
+    const articles = document.querySelectorAll('article.group');
+    articles.forEach((article, index) => {
+      setTimeout(() => {
+        article.classList.add('animate-reveal');
+      }, 500 + (index * 150));
+    });
+    
+    // Animate topic cards with staggered delay
+    const topicCards = document.querySelectorAll('a.group.flex.flex-col');
+    topicCards.forEach((card, index) => {
+      setTimeout(() => {
+        card.classList.add('animate-reveal');
+      }, 800 + (index * 100));
+    });
+  };
+  
   // Add hover effect for cards on touch devices
   document.addEventListener('DOMContentLoaded', () => {
     // Check if it's a touch device
@@ -318,33 +345,6 @@ const allTags = [...new Set(allPosts.flatMap(post => post.data.tags || []))].sli
         }
       }
     });
-    
-    // Add smooth reveal animations for content after loading
-    const animateContent = () => {
-      // Animate hero section
-      const heroElements = document.querySelectorAll('.hero-text span, .hero-text + p, .hero-text ~ div');
-      heroElements.forEach((el, index) => {
-        setTimeout(() => {
-          el.classList.add('animate-reveal');
-        }, 100 + (index * 150));
-      });
-      
-      // Animate posts with staggered delay
-      const articles = document.querySelectorAll('article.group');
-      articles.forEach((article, index) => {
-        setTimeout(() => {
-          article.classList.add('animate-reveal');
-        }, 500 + (index * 150));
-      });
-      
-      // Animate topic cards with staggered delay
-      const topicCards = document.querySelectorAll('a.group.flex.flex-col');
-      topicCards.forEach((card, index) => {
-        setTimeout(() => {
-          card.classList.add('animate-reveal');
-        }, 800 + (index * 100));
-      });
-    };
     
     // Run animations after the loading screen is hidden
     const loadingScreen = document.getElementById('loading-screen');
