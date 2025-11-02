@@ -26,11 +26,11 @@ const sortedTags = [...tagObjects].sort((a, b) => b.count - a.count);
 
 <BaseLayout title=`Explore Tags | ${SITE_TITLE}`>
   <div class="w-full mx-auto px-3 sm:px-6 py-6 sm:py-12 md:py-16 theme-transition-all">
-    <!-- Enhanced header section with animated elements - improved for mobile -->
+    <!-- Enhanced header section with animated elements - disabled in mobile - see #19 -->
     <div class="relative mb-8 sm:mb-12 md:mb-16 text-center theme-transition-element">
-      <div class="absolute -top-16 -left-16 w-36 sm:w-48 md:w-72 h-36 sm:h-48 md:h-72 bg-zinc-100 dark:bg-zinc-800/50 rounded-full blur-3xl opacity-50 animate-blob theme-transition-bg"></div>
-      <div class="absolute -bottom-16 -right-16 w-36 sm:w-48 md:w-72 h-36 sm:h-48 md:h-72 bg-zinc-200 dark:bg-zinc-800/30 rounded-full blur-3xl opacity-30 animate-blob animation-delay-2000 theme-transition-bg"></div>
-      <div class="absolute top-8 right-8 w-24 sm:w-32 md:w-40 h-24 sm:h-32 md:h-40 bg-zinc-100/30 dark:bg-zinc-700/20 rounded-full blur-2xl opacity-40 animate-blob animation-delay-4000 theme-transition-bg"></div>
+      <div class="max-sm:hidden absolute -top-16 -left-16 w-36 sm:w-48 md:w-72 h-36 sm:h-48 md:h-72 bg-zinc-100 dark:bg-zinc-800/50 rounded-full blur-3xl opacity-50 animate-blob theme-transition-bg"></div>
+      <div class="max-sm:hidden absolute -bottom-16 -right-16 w-36 sm:w-48 md:w-72 h-36 sm:h-48 md:h-72 bg-zinc-200 dark:bg-zinc-800/30 rounded-full blur-3xl opacity-30 animate-blob animation-delay-2000 theme-transition-bg"></div>
+      <div class="max-sm:hidden absolute top-8 right-8 w-24 sm:w-32 md:w-40 h-24 sm:h-32 md:h-40 bg-zinc-100/30 dark:bg-zinc-700/20 rounded-full blur-2xl opacity-40 animate-blob animation-delay-4000 theme-transition-bg"></div>
       
       <h1 class="relative text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100 mb-3 sm:mb-4 md:mb-6 theme-transition-color">
         <span class="inline-block relative">
