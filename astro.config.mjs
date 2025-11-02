@@ -2,6 +2,7 @@ import { defineConfig } from 'astro/config';
 import tailwind from '@astrojs/tailwind';
 import react from '@astrojs/react'; // Add this line
 import mdx from '@astrojs/mdx';
+import partytown from '@astrojs/partytown';
 
 // Determine site URL based on environment
 const getSiteURL = () => {
@@ -30,5 +31,10 @@ export default defineConfig({
     tailwind(),
     react(),
     mdx(),
+    partytown({
+      config: {
+        forward: ["dataLayer.push"],
+      },
+    }),
   ],
 });
